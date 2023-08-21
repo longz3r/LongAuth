@@ -54,7 +54,7 @@ public class DatabaseManager {
     }
 
     public void update(String query) {
-        Connection conn =getConnection();
+        Connection conn = getConnection();
         try {
             Statement statement = conn.createStatement();
             statement.executeUpdate(query);
