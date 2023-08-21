@@ -1,0 +1,4 @@
+name: LongAuth
+version: '${project.version}'
+main: xyz.longcraft.longauth.LongAuth
+api-version: '1.20'
