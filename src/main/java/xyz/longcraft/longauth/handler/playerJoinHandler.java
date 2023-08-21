@@ -52,7 +52,7 @@ public class playerJoinHandler implements Listener {
                 if (playerUsername.equals(registeredUser)) {
                     event.allow();
                 } else {
-                    event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Component.text(String.format("This IP was bound to %s\nVisit discord.longcraft.xyz to contact owner if this is your first time joining the server\n\nERR_CODE: DUNG_ALT_AN_CUT", registeredUser)));
+                    event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Component.text(String.format("This IP was bound to %s\n%s\n\nERR_CODE: DUNG_ALT_AN_CUT", registeredUser, config.getString("ip_bound_message"))));
                 }
             } else {
                 Bukkit.getLogger().info(String.format("Allowing %s with new IP %s", playerUsername, playerHostAddress));
