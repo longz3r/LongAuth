@@ -2,7 +2,6 @@ package xyz.longcraft.longauth.handler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -34,7 +33,7 @@ public class PlayerLoginEvent implements Listener {
         try {
             ResultSet result = databaseManager.query(String.format("SELECT * FROM players WHERE username = '%s'", playerUsername));
             if (!result.next()) {
-                getLogger().info(playerUsername + "is a new player, adding to database.");
+                getLogger().info(playerUsername + " is a new player, adding to database.");
                 databaseManager.update(String.format("INSERT INTO `%s`.`players` (username, lastJoinedIP) VALUES ('%s', '%s')", config.getString("database_name"), playerUsername, playerHostAddress));
             } else {
                 databaseManager.update(String.format("UPDATE players\n" +

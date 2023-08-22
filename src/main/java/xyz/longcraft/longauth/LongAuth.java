@@ -5,21 +5,38 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.longcraft.longauth.handler.AsyncPlayerPreLoginEvent;
 import xyz.longcraft.longauth.handler.PlayerLoginEvent;
-import xyz.longcraft.longauth.handler.SQL_Log;
+import xyz.longcraft.longauth.handler.SQLog;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static xyz.longcraft.longauth.handler.SQL_Log.SQLlog;
-
 public final class LongAuth extends JavaPlugin {
-    private DatabaseManager databaseManager;
-    private FileConfiguration config;
+    public DatabaseManager databaseManager;
+    public FileConfiguration config;
+
+    public DatabaseManager getDatabaseManager() throws SQLException {
+        config = getConfig();
+        String DB_HOST = config.getString("host");
+        String DB_NAME = config.getString("database_name");
+        String DB_USERNAME = config.getString("username");
+        String DB_PASSWORD = config.getString("password");
+        try {
+            return new DatabaseManager(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+        } catch (SQLException e) {
+            getLogger().severe(e.getMessage());
+            return new DatabaseManager(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+        }
+    }
+
+    public FileConfiguration getFileConfiguration() {
+        return getConfig();
+    }
 
     @Override
     public void onEnable() {
+
         // Plugin startup logic
         saveDefaultConfig();
         config = getConfig();
@@ -104,7 +121,7 @@ public final class LongAuth extends JavaPlugin {
             getLogger().severe(e.getMessage());
         }
 
-        SQL_Log.SQLlog("INFO", "Plugin started", this.databaseManager, this.config);
+        new SQLog("INFO", "Plugin started");
 
 
         new AsyncPlayerPreLoginEvent(this, this.databaseManager, this.config);
@@ -124,4 +141,6 @@ public final class LongAuth extends JavaPlugin {
         // Plugin shutdown logic
         getLogger().info("PLUGIN CHET");
     }
+
+
 }
